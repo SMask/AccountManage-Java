@@ -32,6 +32,10 @@
             color: red;
             font-size: smaller;
         }
+
+        .error {
+            color: red;
+        }
     </style>
 
 </head>
@@ -40,17 +44,18 @@
     <h1>添加用户</h1>
     <hr/>
     <form:form action="${pageContext.request.contextPath}/admin/users/addP" method="post" modelAttribute="user"
-               role="form">
+               role="form" onsubmit="return formCheck()">
         <div class="form-group">
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="username">Username:</label>
-            <form:errors path="username"/>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username:">
+            <form:errors path="username" cssClass="error"/>
+            <input type="text" class="form-control" id="username" name="username" value="${user.username}"
+                   placeholder="Enter Username:">
         </div>
         <div class="form-group">
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="password">Password:</label>
-            <form:errors path="password"/>
+            <form:errors path="password" cssClass="error"/>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password:">
         </div>
         <div class="form-group">
@@ -62,22 +67,39 @@
         <div class="form-group">
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="nickname">Nickname:</label>
-            <form:errors path="nickname"/>
-            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Enter Nickname:">
+            <form:errors path="nickname" cssClass="error"/>
+            <input type="text" class="form-control" id="nickname" name="nickname" value="${user.nickname}"
+                   placeholder="Enter Nickname:">
         </div>
         <div class="form-group">
             <label for="firstName">FirstName:</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter FirstName:">
+            <input type="text" class="form-control" id="firstName" name="firstName" value="${user.firstName}"
+                   placeholder="Enter FirstName:">
         </div>
         <div class="form-group">
             <label for="lastName">LastName:</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter LastName:">
+            <input type="text" class="form-control" id="lastName" name="lastName" value="${user.lastName}"
+                   placeholder="Enter LastName:">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success">提交</button>
         </div>
     </form:form>
 </div>
+
+<!-- 表单检查 -->
+<script type="text/javascript">
+    function formCheck() {
+        var password = document.getElementById("password").value;
+        var passwordAgain = document.getElementById("passwordAgain").value;
+        if (password === passwordAgain) {
+            return true;
+        } else {
+            alert("两次输入的密码不一致！");
+            return false;
+        }
+    }
+</script>
 
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>

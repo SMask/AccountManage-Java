@@ -22,7 +22,7 @@ public class UserEntity {
     private String password;
     @NotBlank(message = "{user.nickname.illegal}")
     private String nickname;
-    
+
     private String firstName;
     private String lastName;
     private long registerTime;

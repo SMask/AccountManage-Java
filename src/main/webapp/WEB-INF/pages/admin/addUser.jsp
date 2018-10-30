@@ -27,6 +27,13 @@
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
 
+    <style type="text/css">
+        .glyphicon-asterisk {
+            color: red;
+            font-size: smaller;
+        }
+    </style>
+
 </head>
 <body>
 <div class="container">
@@ -35,20 +42,27 @@
     <form:form action="${pageContext.request.contextPath}/admin/users/addP" method="post" modelAttribute="user"
                role="form">
         <div class="form-group">
+            <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="username">Username:</label>
+            <form:errors path="username"/>
             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username:">
         </div>
         <div class="form-group">
+            <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="password">Password:</label>
+            <form:errors path="password"/>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password:">
         </div>
         <div class="form-group">
+            <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="passwordAgain">Password again:</label>
             <input type="password" class="form-control" id="passwordAgain" name="passwordAgain"
                    placeholder="Enter Password again:">
         </div>
         <div class="form-group">
+            <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="nickname">Nickname:</label>
+            <form:errors path="nickname"/>
             <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Enter Nickname:">
         </div>
         <div class="form-group">

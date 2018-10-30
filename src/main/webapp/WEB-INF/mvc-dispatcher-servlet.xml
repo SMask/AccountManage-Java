@@ -41,4 +41,29 @@
     <!-- 开启事务管理注解 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
+    <!-- 自定义校验器相关，如果不设置则默认使用 ValidationMessages.properties -->
+    <!-- validator校验器注入到适配器 -->
+    <mvc:annotation-driven validator="validator"/>
+    <!-- 校验器 -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <!-- hibernate校验器 -->
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <!-- 指定存放校验信息的文件 -->
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+    <!-- 校验信息文件 -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <!-- 文件路径 -->
+        <property name="basenames">
+            <list>
+                <value>classpath:messages</value>
+            </list>
+        </property>
+        <!-- 资源文件编码格式 -->
+        <property name="fileEncodings" value="UTF-8"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 资源文件内容缓存时间 -->
+        <property name="cacheSeconds" value="120"/>
+    </bean>
+
 </beans>

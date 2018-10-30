@@ -1,6 +1,9 @@
 package com.mask.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -8,9 +11,18 @@ import java.util.Objects;
 @Table(name = "user", schema = "accountmanagemaven", catalog = "")
 public class UserEntity {
     private int id;
+
+    // message 直接提供错误信息
+    // @NotBlank(message = "Username不能为空")
+    // message 使用 {} 代表错误内容，从 resources 目录下的 ValidationMessages.properties 文件中读取
+    // @NotBlank(message = "{user.username.illegal}")
+    @Pattern(regexp = "[a-zA-Z0-9_]{6,12}", message = "{user.username.illegal}")
     private String username;
+    @Size(min = 6, max = 12, message = "{user.password.illegal}")
     private String password;
+    @NotBlank(message = "{user.nickname.illegal}")
     private String nickname;
+    
     private String firstName;
     private String lastName;
     private long registerTime;

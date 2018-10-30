@@ -21,6 +21,7 @@
         <spring.version>5.1.1.RELEASE</spring.version>
         <spring.data.jpa.version>2.1.1.RELEASE</spring.data.jpa.version>
         <hibernate.version>5.3.7.Final</hibernate.version>
+        <hibernate.validator.version>6.0.13.Final</hibernate.validator.version>
         <mchange.version>0.9.5.2</mchange.version>
         <servlet.version>1.2</servlet.version>
         <mysql.version>8.0.13</mysql.version>
@@ -74,6 +75,13 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->

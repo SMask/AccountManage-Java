@@ -8,8 +8,9 @@ import java.util.Objects;
 @Table(name = "user", schema = "accountmanagemaven", catalog = "")
 public class UserEntity {
     private int id;
-    private String nickname;
+    private String username;
     private String password;
+    private String nickname;
     private String firstName;
     private String lastName;
     private long registerTime;
@@ -28,13 +29,13 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "nickname", nullable = false, length = 45)
-    public String getNickname() {
-        return nickname;
+    @Column(name = "username", nullable = false, length = 45)
+    public String getUsername() {
+        return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Basic
@@ -45,6 +46,16 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "nickname", nullable = false, length = 45)
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     @Basic
@@ -104,8 +115,9 @@ public class UserEntity {
         UserEntity that = (UserEntity) o;
         return id == that.id &&
                 registerTime == that.registerTime &&
-                Objects.equals(nickname, that.nickname) &&
+                Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
+                Objects.equals(nickname, that.nickname) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(updateTime, that.updateTime) &&
@@ -114,7 +126,7 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname, password, firstName, lastName, registerTime, updateTime, token);
+        return Objects.hash(id, username, password, nickname, firstName, lastName, registerTime, updateTime, token);
     }
 
     @OneToMany(mappedBy = "userByUserId")

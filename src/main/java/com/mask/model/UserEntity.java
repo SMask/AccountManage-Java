@@ -64,6 +64,8 @@ public class UserEntity {
         this.password = password;
     }
 
+    // 设置 @Transient 表示不在数据库生成此字段
+    @Transient
     public String getPasswordAgain() {
         return passwordAgain;
     }

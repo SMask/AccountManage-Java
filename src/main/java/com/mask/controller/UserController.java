@@ -68,6 +68,12 @@ public class UserController {
             return "admin/addUser";
         }
 
+        // 判断Username是否已注册
+        List<UserEntity> userList = userRepository.findAllByUsername(userEntity.getUsername());
+        if (userList != null && !userList.isEmpty()) {
+            bindingResult.rejectValue("username", "user.username.repeat");
+        }
+
         // 判断两次输入密码是否一致
         if (!userEntity.getPassword().equals(userEntity.getPasswordAgain())) {
             bindingResult.rejectValue("passwordAgain", "user.password.again.illegal");

@@ -25,6 +25,7 @@ public class UserController {
     /**
      * 用户管理
      *
+     * @param modelMap modelMap
      * @return 打开的页面路径
      */
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     /**
-     * get请求，访问添加用户 页面
+     * get请求，访问 添加用户 页面
      *
      * @return 打开的页面路径
      */
@@ -57,7 +58,8 @@ public class UserController {
      * // 注意：@Validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的（一前一后）。
      * // @ModelAttribute("user")可以进行数据回显，也就是数据提交后，如果出现错误，将刚才提交的数据回显到刚才的提交页面。
      *
-     * @param userEntity userEntity
+     * @param userEntity    userEntity
+     * @param bindingResult bindingResult
      * @return 打开的页面路径
      */
     @RequestMapping(value = "/admin/users/addP", method = RequestMethod.POST)
@@ -65,24 +67,8 @@ public class UserController {
         // 注意此处，post请求传递过来的是一个UserEntity对象，里面包含了该用户的信息
         // 通过@ModelAttribute()注解可以获取传递过来的'user'，并创建这个对象
 
-        // 显示格式等错误信息
-        if (bindingResult.hasErrors()) {
-            return "admin/addUser";
-        }
-
-        // 判断Username是否已注册
-        List<UserEntity> userList = userRepository.findAllByUsername(userEntity.getUsername());
-        if (userList != null && !userList.isEmpty()) {
-            bindingResult.rejectValue("username", "user.username.repeat");
-        }
-
-        // 判断两次输入密码是否一致
-        if (!userEntity.getPassword().equals(userEntity.getPasswordAgain())) {
-            bindingResult.rejectValue("passwordAgain", "user.password.again.illegal");
-        }
-
-        // 显示其他错误信息
-        if (bindingResult.hasErrors()) {
+        // 拦截错误信息
+        if (isIntercept(userEntity, bindingResult)) {
             return "admin/addUser";
         }
 
@@ -125,6 +111,99 @@ public class UserController {
         modelMap.addAttribute("user", userEntity);
 
         return "admin/userDetail";
+    }
+
+    /**
+     * get请求，访问 更新用户 页面
+     *
+     * @param userId   userId
+     * @param modelMap modelMap
+     * @return 打开的页面路径
+     */
+    @RequestMapping(value = "/admin/users/update/{id}", method = RequestMethod.GET)
+    public String updateUser(@PathVariable("id") Integer userId, ModelMap modelMap) {
+        // 找到 userId 所表示的用户
+        UserEntity userEntity = null;
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            userEntity = userOptional.get();
+        }
+
+        // 传递数据给页面
+        modelMap.addAttribute("user", userEntity);
+
+        return "admin/updateUser";
+    }
+
+    /**
+     * post请求，处理更新用户请求，并重定向到用户管理页面
+     *
+     * @param userEntity    userEntity
+     * @param bindingResult bindingResult
+     * @return 打开的页面路径
+     */
+    @RequestMapping(value = "/admin/users/updateP", method = RequestMethod.POST)
+    public String updateUserPost(@Validated @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
+        // 拦截错误信息
+        if (isIntercept(userEntity, bindingResult)) {
+            return "admin/updateUser";
+        }
+
+        // 可分字段更新
+        // 获取数据
+        int id = userEntity.getId();
+        String username = userEntity.getUsername();
+        String password = userEntity.getPassword();
+        String nickname = userEntity.getNickname();
+        String firstName = userEntity.getFirstName();
+        String lastName = userEntity.getLastName();
+        // 更新毫秒数
+        long updateTime = System.currentTimeMillis();
+        // 更新用户信息
+        userRepository.update(username, password, nickname, firstName, lastName, updateTime, id);
+        // 刷新缓冲区
+        userRepository.flush();
+
+//        // 会更新实体类中全部字段数据
+//        // 更新毫秒数
+//        userEntity.setUpdateTime(System.currentTimeMillis());
+//        // 更新用户信息
+//        userRepository.saveAndFlush(userEntity);
+
+        // 重定向到用户管理页面，方法为 redirect:url
+        return "redirect:/admin/users";
+    }
+
+    /**
+     * 是否拦截用户信息
+     *
+     * @param userEntity    userEntity
+     * @param bindingResult bindingResult
+     * @return 是否拦截
+     */
+    private boolean isIntercept(UserEntity userEntity, BindingResult bindingResult) {
+        // 显示格式等错误信息
+        if (bindingResult.hasErrors()) {
+            return true;
+        }
+
+        // 判断Username是否已注册
+        List<UserEntity> userList = userRepository.findAllByUsername(userEntity.getUsername());
+        if (userList != null && !userList.isEmpty()) {
+            bindingResult.rejectValue("username", "user.username.repeat");
+        }
+
+        // 判断两次输入密码是否一致
+        if (!userEntity.getPassword().equals(userEntity.getPasswordAgain())) {
+            bindingResult.rejectValue("passwordAgain", "user.password.again.illegal");
+        }
+
+        // 显示其他错误信息
+        if (bindingResult.hasErrors()) {
+            return true;
+        }
+
+        return false;
     }
 
 }

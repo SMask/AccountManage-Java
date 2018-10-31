@@ -18,8 +18,12 @@ public class UserEntity {
     // @NotBlank(message = "{user.username.illegal}")
     @Pattern(regexp = "[a-zA-Z0-9_]{6,12}", message = "{user.username.illegal}")
     private String username;
+
     @Size(min = 6, max = 12, message = "{user.password.illegal}")
     private String password;
+
+    private String passwordAgain;
+
     @NotBlank(message = "{user.nickname.illegal}")
     private String nickname;
 
@@ -58,6 +62,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordAgain() {
+        return passwordAgain;
+    }
+
+    public void setPasswordAgain(String passwordAgain) {
+        this.passwordAgain = passwordAgain;
     }
 
     @Basic

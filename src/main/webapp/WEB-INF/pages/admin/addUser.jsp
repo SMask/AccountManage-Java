@@ -56,13 +56,15 @@
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="password">Password:</label>
             <form:errors path="password" cssClass="error"/>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password:">
+            <input type="password" class="form-control" id="password" name="password" value="${user.password}"
+                   placeholder="Enter Password:">
         </div>
         <div class="form-group">
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
             <label for="passwordAgain">Password again:</label>
+            <form:errors path="passwordAgain" cssClass="error"/>
             <input type="password" class="form-control" id="passwordAgain" name="passwordAgain"
-                   placeholder="Enter Password again:">
+                   value="${user.passwordAgain}" placeholder="Enter Password again:">
         </div>
         <div class="form-group">
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>

@@ -5,6 +5,7 @@ import com.mask.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -73,6 +74,17 @@ public class MainController {
         // 注意此处，post请求传递过来的是一个UserEntity对象，里面包含了该用户的信息
         // 通过@ModelAttribute()注解可以获取传递过来的'user'，并创建这个对象
 
+        // 显示格式等错误信息
+        if (bindingResult.hasErrors()) {
+            return "admin/addUser";
+        }
+
+        // 判断两次输入密码是否一致
+        if (!userEntity.getPassword().equals(userEntity.getPasswordAgain())) {
+            bindingResult.rejectValue("passwordAgain", "user.password.again.illegal");
+        }
+
+        // 显示其他错误信息
         if (bindingResult.hasErrors()) {
             return "admin/addUser";
         }
@@ -85,7 +97,7 @@ public class MainController {
         userEntity.setToken(userEntity.getUsername() + "+" + registerTime);
 
         // 数据库中添加一个用户，该步暂时不会刷新缓存
-        //userRepository.save(userEntity);
+        // userRepository.save(userEntity);
 
         // 数据库中添加一个用户，并立即刷新缓存
         userRepository.saveAndFlush(userEntity);

@@ -76,7 +76,8 @@
                            class="btn btn-sm btn-success">详情</a>
                         <a href="${pageContext.request.contextPath}/admin/users/update/${user.id}" type="button"
                            class="btn btn-sm btn-warning">修改</a>
-                        <a href="${pageContext.request.contextPath}/admin/users/delete/${user.id}" type="button"
+                        <a href="javascript:if(confirm('是否确认删除用户${user.nickname}？'))location='${pageContext.request.contextPath}/admin/users/delete/${user.id}'"
+                           type="button"
                            class="btn btn-sm btn-danger">删除</a>
                     </td>
                 </tr>

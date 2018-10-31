@@ -47,14 +47,14 @@
                role="form" onsubmit="return formCheck()">
         <div class="form-group">
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
-            <label for="username">Username:</label>
+            <label for="username">Username:(字母、数字和下划线组成，6至12位之间)</label>
             <form:errors path="username" cssClass="error"/>
             <input type="text" class="form-control" id="username" name="username" value="${user.username}"
                    placeholder="Enter Username:">
         </div>
         <div class="form-group">
             <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
-            <label for="password">Password:</label>
+            <label for="password">Password:(6至12位之间)</label>
             <form:errors path="password" cssClass="error"/>
             <input type="password" class="form-control" id="password" name="password" value="${user.password}"
                    placeholder="Enter Password:">

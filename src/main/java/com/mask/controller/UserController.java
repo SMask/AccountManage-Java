@@ -8,10 +8,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -100,4 +102,29 @@ public class UserController {
         // 重定向到用户管理页面，方法为 redirect:url
         return "redirect:/admin/users";
     }
+
+    /**
+     * 查看用户详情
+     * // @PathVariable可以收集url中的变量，需匹配的变量用{}括起来
+     * // 例如：访问 /admin/users/show/1 ，将匹配 id = 1
+     *
+     * @param userId   userId
+     * @param modelMap modelMap
+     * @return 打开的页面路径
+     */
+    @RequestMapping(value = "/admin/users/show/{id}", method = RequestMethod.GET)
+    public String showUser(@PathVariable("id") Integer userId, ModelMap modelMap) {
+        // 找到 userId 所表示的用户
+        UserEntity userEntity = null;
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            userEntity = userOptional.get();
+        }
+
+        // 传递数据给页面
+        modelMap.addAttribute("user", userEntity);
+
+        return "admin/userDetail";
+    }
+
 }

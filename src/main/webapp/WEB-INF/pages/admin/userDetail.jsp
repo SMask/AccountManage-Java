@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -72,11 +73,23 @@
             </tr>
             <tr>
                 <th>Register Time</th>
-                <td>${user.registerTime}</td>
+                <td>
+                    <c:if test="${user.registerTime>0}">
+                        <jsp:useBean id="registerTimeValue" class="java.util.Date"/>
+                        <jsp:setProperty name="registerTimeValue" property="time" value="${user.registerTime}"/>
+                        <fmt:formatDate value="${registerTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    </c:if>
+                </td>
             </tr>
             <tr>
                 <th>Update Time</th>
-                <td>${user.updateTime}</td>
+                <td>
+                    <c:if test="${user.updateTime>0}">
+                        <jsp:useBean id="updateTimeValue" class="java.util.Date"/>
+                        <jsp:setProperty name="updateTimeValue" property="time" value="${user.updateTime}"/>
+                        <fmt:formatDate value="${updateTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    </c:if>
+                </td>
             </tr>
             <tr>
                 <th>Token</th>

@@ -36,6 +36,8 @@
 
     <a href="${pageContext.request.contextPath}/admin/users" type="button" class="btn btn-primary btn-sm">用户管理</a>
 
+    <a href="${pageContext.request.contextPath}/admin/blogs" type="button" class="btn btn-primary btn-sm">博客管理</a>
+
 </div>
 
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->

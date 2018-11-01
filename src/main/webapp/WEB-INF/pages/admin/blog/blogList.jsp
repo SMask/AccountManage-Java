@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: server
-  Date: 2018/10/29
-  Time: 18:52
+  Date: 2018/11/1
+  Time: 14:09
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 
-    <title>用户管理</title>
+    <title>博客管理</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,70 +32,68 @@
 <body>
 
 <div class="container">
-    <h1>博客系统 - 用户管理</h1>
+    <h1>博客系统 - 博客管理</h1>
     <hr/>
 
-    <h3>所有用户 <a href="${pageContext.request.contextPath}/admin/users/add" type="button" class="btn btn-primary btn-sm">添加</a>
+    <h3>所有博客 <a href="${pageContext.request.contextPath}/admin/blogs/add" type="button"
+                class="btn btn-primary btn-sm">添加</a>
     </h3>
 
-    <!-- 如果用户列表为空 -->
-    <c:if test="${empty userList}">
+    <!-- 如果博客列表为空 -->
+    <c:if test="${empty blogList}">
         <div class="alert alert-warning" role="alert">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> User表为空，请
-            <a href="${pageContext.request.contextPath}/admin/users/add" type="button"
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Blog表为空，请
+            <a href="${pageContext.request.contextPath}/admin/blogs/add" type="button"
                class="btn btn-primary btn-sm">添加</a>
         </div>
     </c:if>
 
-    <!-- 如果用户列表非空 -->
-    <c:if test="${!empty userList}">
+    <!-- 如果博客列表非空 -->
+    <c:if test="${!empty blogList}">
         <table class="table table-bordered table-striped">
             <tr>
                 <th>ID</th>
-                <th>用户名</th>
-                <th>密码</th>
-                <th>昵称</th>
-                <th>姓名</th>
-                <th>注册时间</th>
+                <th>标题</th>
+                <th>内容</th>
+                <th>作者</th>
+                <th>发布时间</th>
                 <th>修改时间</th>
-                <th>Token</th>
                 <th>操作</th>
             </tr>
-
-            <c:forEach items="${userList}" var="user">
+            <c:forEach items="${blogList}" var="blog">
                 <tr>
-                    <td>${user.id}</td>
-                    <td>${user.username}</td>
-                    <td>${user.password}</td>
-                    <td>${user.nickname}</td>
-                    <td>${user.firstName} ${user.lastName}</td>
+                    <td>${blog.id}</td>
+                    <td>${blog.title}</td>
+                    <td>${blog.content}</td>
+                    <td>${blog.userByUserId.nickname}
+                        , ${blog.userByUserId.firstName} ${blog.userByUserId.lastName}</td>
                     <td>
-                        <c:if test="${user.registerTime>0}">
-                            <jsp:useBean id="registerTimeValue" class="java.util.Date"/>
-                            <jsp:setProperty name="registerTimeValue" property="time" value="${user.registerTime}"/>
-                            <fmt:formatDate value="${registerTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        <c:if test="${blog.publishTime>0}">
+                            <jsp:useBean id="publishTimeValue" class="java.util.Date"/>
+                            <jsp:setProperty name="publishTimeValue" property="time" value="${blog.publishTime}"/>
+                            <fmt:formatDate value="${publishTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${user.updateTime>0}">
+                        <c:if test="${blog.updateTime>0}">
                             <jsp:useBean id="updateTimeValue" class="java.util.Date"/>
-                            <jsp:setProperty name="updateTimeValue" property="time" value="${user.updateTime}"/>
+                            <jsp:setProperty name="updateTimeValue" property="time" value="${blog.updateTime}"/>
                             <fmt:formatDate value="${updateTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </c:if>
                     </td>
-                    <td>${user.token}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/users/show/${user.id}" type="button"
+                        <a href="${pageContext.request.contextPath}/admin/blogs/show/${blog.id}" type="button"
                            class="btn btn-sm btn-success">详情</a>
-                        <a href="${pageContext.request.contextPath}/admin/users/update/${user.id}" type="button"
+                        <a href="${pageContext.request.contextPath}/admin/blogs/update/${blog.id}" type="button"
                            class="btn btn-sm btn-warning">修改</a>
-                        <a href="javascript:if(confirm('是否确认删除用户${user.nickname}？'))location='${pageContext.request.contextPath}/admin/users/delete/${user.id}'"
+                        <a href="javascript:if(confirm('是否确认删除博客${blog.title}？'))location='${pageContext.request.contextPath}/admin/blogs/delete/${user.id}'"
                            type="button"
                            class="btn btn-sm btn-danger">删除</a>
                     </td>
                 </tr>
             </c:forEach>
         </table>
+
     </c:if>
 
 </div>

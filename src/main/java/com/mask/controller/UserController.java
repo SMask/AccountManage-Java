@@ -29,7 +29,7 @@ public class UserController {
      * @return 打开的页面路径
      */
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
-    public String getUsers(ModelMap modelMap) {
+    public String showUsers(ModelMap modelMap) {
         // 查询user表中所有记录
         List<UserEntity> userList = userRepository.findAll();
 
@@ -37,7 +37,7 @@ public class UserController {
         modelMap.addAttribute("userList", userList);
 
         // 返回pages目录下的admin/users.jsp页面
-        return "/admin/users";
+        return "admin/user/userList";
     }
 
     /**
@@ -48,7 +48,7 @@ public class UserController {
     @RequestMapping(value = "/admin/users/add", method = RequestMethod.GET)
     public String addUser() {
         // 转到 admin/addUser.jsp页面
-        return "admin/addUser";
+        return "admin/user/addUser";
     }
 
     /**
@@ -69,7 +69,7 @@ public class UserController {
 
         // 拦截错误信息
         if (isIntercept(userEntity, bindingResult)) {
-            return "admin/addUser";
+            return "admin/user/addUser";
         }
 
         // 获取注册毫秒数
@@ -106,7 +106,7 @@ public class UserController {
         // 传递数据给页面
         modelMap.addAttribute("user", userEntity);
 
-        return "admin/userDetail";
+        return "admin/user/userDetail";
     }
 
     /**
@@ -124,7 +124,7 @@ public class UserController {
         // 传递数据给页面
         modelMap.addAttribute("user", userEntity);
 
-        return "admin/updateUser";
+        return "admin/user/updateUser";
     }
 
     /**
@@ -138,7 +138,7 @@ public class UserController {
     public String updateUserPost(@Validated @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
         // 拦截错误信息
         if (isIntercept(userEntity, bindingResult)) {
-            return "admin/updateUser";
+            return "admin/user/updateUser";
         }
 
         // 可分字段更新
@@ -204,7 +204,16 @@ public class UserController {
         // 判断Username是否已注册
         List<UserEntity> userList = userRepository.findAllByUsername(userEntity.getUsername());
         if (userList != null && !userList.isEmpty()) {
-            bindingResult.rejectValue("username", "user.username.repeat");
+            boolean isRepeat = false;
+            for (UserEntity userTemp : userList) {
+                if (userTemp.getId() != userEntity.getId()) {
+                    isRepeat = true;
+                    break;
+                }
+            }
+            if (isRepeat) {
+                bindingResult.rejectValue("username", "user.username.repeat");
+            }
         }
 
         // 判断两次输入密码是否一致

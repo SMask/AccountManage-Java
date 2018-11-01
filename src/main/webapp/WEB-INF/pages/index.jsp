@@ -28,9 +28,15 @@
 </head>
 <body>
 
-<h1>AccountManageMaven Demo首页</h1>
+<div class="container">
 
-<h3>出现此页面，说明配置成功。</h3>
+    <h1>AccountManageMaven 首页</h1>
+
+    <h3>出现此页面，说明配置成功。</h3>
+
+    <a href="${pageContext.request.contextPath}/admin/users" type="button" class="btn btn-primary btn-sm">用户管理</a>
+
+</div>
 
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>

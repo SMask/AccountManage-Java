@@ -48,7 +48,7 @@ public class UserController {
     @RequestMapping(value = "/admin/users/add", method = RequestMethod.GET)
     public String addUser() {
         // 转到 admin/addUser.jsp页面
-        return "admin/user/addUser";
+        return "admin/user/userAdd";
     }
 
     /**
@@ -69,7 +69,7 @@ public class UserController {
 
         // 拦截错误信息
         if (isIntercept(userEntity, bindingResult)) {
-            return "admin/user/addUser";
+            return "admin/user/userAdd";
         }
 
         // 获取注册毫秒数
@@ -124,7 +124,7 @@ public class UserController {
         // 传递数据给页面
         modelMap.addAttribute("user", userEntity);
 
-        return "admin/user/updateUser";
+        return "admin/user/userUpdate";
     }
 
     /**
@@ -138,7 +138,7 @@ public class UserController {
     public String updateUserPost(@Validated @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
         // 拦截错误信息
         if (isIntercept(userEntity, bindingResult)) {
-            return "admin/user/updateUser";
+            return "admin/user/userUpdate";
         }
 
         // 可分字段更新

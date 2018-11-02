@@ -1,16 +1,23 @@
 package com.mask.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
 @Table(name = "blog", schema = "accountmanagemaven", catalog = "")
 public class BlogEntity {
     private int id;
+
+    @NotBlank(message = "{blog.title.illegal}")
     private String title;
+
     private String content;
     private long publishTime;
     private long updateTime;
+
+    @NotNull(message = "{blog.user.illegal}")
     private UserEntity userByUserId;
 
     @Id

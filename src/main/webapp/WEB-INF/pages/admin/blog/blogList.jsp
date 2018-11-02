@@ -65,8 +65,8 @@
                     <td>${blog.id}</td>
                     <td>${blog.title}</td>
                     <td>${blog.content}</td>
-                    <td>${blog.userByUserId.nickname}
-                        , ${blog.userByUserId.firstName} ${blog.userByUserId.lastName}</td>
+                    <td>${blog.userByUserId.username}
+                        - ${blog.userByUserId.nickname} ${blog.userByUserId.firstName} ${blog.userByUserId.lastName}</td>
                     <td>
                         <c:if test="${blog.publishTime>0}">
                             <jsp:useBean id="publishTimeValue" class="java.util.Date"/>

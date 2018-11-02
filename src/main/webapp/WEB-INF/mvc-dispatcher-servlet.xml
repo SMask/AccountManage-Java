@@ -9,14 +9,19 @@
     <!--指明 controller 所在包，并扫描其中的注解-->
     <context:component-scan base-package="com.mask.controller"/>
 
+    <!-- 需要配置以下，否则无法访问静态资源(js、css、img) -->
+    <!-- <mvc:resources> 和 <mvc:default-servlet-handler/>、<mvc:annotation-driven/> 二选一，各有优缺点 https://www.cnblogs.com/dflmg/p/6393416.html-->
+    <!-- location 是真实的路径，mapping 是对外显示的映射的路径 -->
+    <!--<mvc:resources mapping="/style/**" location="/WEB-INF/pages/style/"/>-->
+
     <!-- 静态资源(js、image等)的访问 -->
     <mvc:default-servlet-handler/>
 
     <!-- 开启注解 -->
     <mvc:annotation-driven/>
 
-    <!--ViewResolver 视图解析器-->
-    <!--用于支持Servlet、JSP视图解析-->
+    <!-- ViewResolver 视图解析器 -->
+    <!-- 用于支持Servlet、JSP视图解析 -->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/pages/"/>
@@ -40,6 +45,7 @@
 
     <!-- 开启事务管理注解 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
 
     <!-- 自定义校验器相关，如果不设置则默认使用 ValidationMessages.properties -->
     <!-- validator校验器注入到适配器 -->

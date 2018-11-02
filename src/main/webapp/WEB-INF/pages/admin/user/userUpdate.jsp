@@ -24,6 +24,9 @@
         <title>${user.nickname} 更新</title>
     </c:if>
 
+    <!-- public.css -->
+    <link href="${pageContext.request.contextPath}/style/public.css" rel="stylesheet" type="text/css" charset="UTF-8">
+
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -33,17 +36,6 @@
     <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
-
-    <style type="text/css">
-        .glyphicon-asterisk {
-            color: red;
-            font-size: smaller;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
 
 </head>
 <body>
@@ -64,28 +56,29 @@
                 <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                 <label for="username">Username:(字母、数字和下划线组成，6至12位之间)</label>
                 <form:errors path="username" cssClass="error"/>
-                <input type="text" class="form-control" id="username" name="username" value="${user.username}"
+                <input required type="text" class="form-control" id="username" name="username" value="${user.username}"
                        placeholder="Enter Username:">
             </div>
             <div class="form-group">
                 <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                 <label for="password">Password:(6至12位之间)</label>
                 <form:errors path="password" cssClass="error"/>
-                <input type="password" class="form-control" id="password" name="password" value="${user.password}"
+                <input required type="password" class="form-control" id="password" name="password"
+                       value="${user.password}"
                        placeholder="Enter Password:">
             </div>
             <div class="form-group">
                 <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                 <label for="passwordAgain">Password again:</label>
                 <form:errors path="passwordAgain" cssClass="error"/>
-                <input type="password" class="form-control" id="passwordAgain" name="passwordAgain"
+                <input required type="password" class="form-control" id="passwordAgain" name="passwordAgain"
                        value="${user.passwordAgain}" placeholder="Enter Password again:">
             </div>
             <div class="form-group">
                 <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                 <label for="nickname">Nickname:</label>
                 <form:errors path="nickname" cssClass="error"/>
-                <input type="text" class="form-control" id="nickname" name="nickname" value="${user.nickname}"
+                <input required type="text" class="form-control" id="nickname" name="nickname" value="${user.nickname}"
                        placeholder="Enter Nickname:">
             </div>
             <div class="form-group">

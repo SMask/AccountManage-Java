@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +70,8 @@ public class UserController {
     public String addUserPost(@Validated @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
         // 注意此处，post请求传递过来的是一个UserEntity对象，里面包含了该用户的信息
         // 通过@ModelAttribute()注解可以获取传递过来的'user'，并创建这个对象
+
+        refreshBirthday(userEntity);
 
         // 拦截错误信息
         if (isIntercept(userEntity, bindingResult)) {
@@ -136,6 +142,8 @@ public class UserController {
      */
     @RequestMapping(value = "/admin/users/updateP", method = RequestMethod.POST)
     public String updateUserPost(@Validated @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
+        refreshBirthday(userEntity);
+
         // 拦截错误信息
         if (isIntercept(userEntity, bindingResult)) {
             return "admin/user/userUpdate";
@@ -149,10 +157,11 @@ public class UserController {
         String nickname = userEntity.getNickname();
         String firstName = userEntity.getFirstName();
         String lastName = userEntity.getLastName();
+        long birthday = userEntity.getBirthday();
         // 更新毫秒数
         long updateTime = System.currentTimeMillis();
         // 更新用户信息
-        userRepository.update(username, password, nickname, firstName, lastName, updateTime, id);
+        userRepository.update(username, password, nickname, firstName, lastName, birthday, updateTime, id);
         // 刷新缓冲区
         userRepository.flush();
 
@@ -189,6 +198,33 @@ public class UserController {
     }
 
     /**
+     * 解析 Birthday 时间戳
+     * 把 birthdayStr 字段解析为 birthday 时间戳
+     *
+     * @param userEntity userEntity
+     */
+    private void refreshBirthday(UserEntity userEntity) {
+        // 解析字符串类型Date的时间戳
+        String birthdayStr = userEntity.getBirthdayStr();
+        if (birthdayStr == null) {
+            return;
+        }
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            userEntity.setBirthday(dateFormat.parse(birthdayStr).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // 解析Date类型的时间戳
+//        Date birthdayDate = userEntity.getBirthdayDate();
+//        if (birthdayDate == null) {
+//            return;
+//        }
+//        userEntity.setBirthday(birthdayDate.getTime());
+    }
+
+    /**
      * 是否拦截用户信息
      *
      * @param userEntity    userEntity
@@ -219,6 +255,11 @@ public class UserController {
         // 判断两次输入密码是否一致
         if (!userEntity.getPassword().equals(userEntity.getPasswordAgain())) {
             bindingResult.rejectValue("passwordAgain", "user.password.again.illegal");
+        }
+
+        // 判断生日是否合法
+        if (userEntity.getBirthday() > System.currentTimeMillis()) {
+            bindingResult.rejectValue("birthday", "user.birthday.illegal");
         }
 
         // 显示其他错误信息

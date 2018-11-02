@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -29,6 +30,11 @@ public class UserEntity {
 
     private String firstName;
     private String lastName;
+
+    private long birthday;
+    private String birthdayStr;// 不使用Date，因为如果网页不选日期解析会出错
+    private Date birthdayDate;// 需要是 java.sql.Date ，否则会为 null
+
     private long registerTime;
     private long updateTime;
     private String token;
@@ -105,6 +111,34 @@ public class UserEntity {
     }
 
     @Basic
+    @Column(name = "birthday", nullable = true)
+    public long getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(long birthday) {
+        this.birthday = birthday;
+    }
+
+    @Transient
+    public String getBirthdayStr() {
+        return birthdayStr;
+    }
+
+    public void setBirthdayStr(String birthdayStr) {
+        this.birthdayStr = birthdayStr;
+    }
+
+    @Transient
+    public Date getBirthdayDate() {
+        return birthdayDate;
+    }
+
+    public void setBirthdayDate(Date birthdayDate) {
+        this.birthdayDate = birthdayDate;
+    }
+
+    @Basic
     @Column(name = "register_time", nullable = false)
     public long getRegisterTime() {
         return registerTime;
@@ -146,13 +180,14 @@ public class UserEntity {
                 Objects.equals(nickname, that.nickname) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
+                Objects.equals(birthday, that.birthday) &&
                 Objects.equals(updateTime, that.updateTime) &&
                 Objects.equals(token, that.token);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, nickname, firstName, lastName, registerTime, updateTime, token);
+        return Objects.hash(id, username, password, nickname, birthday, firstName, lastName, registerTime, updateTime, token);
     }
 
     @OneToMany(mappedBy = "userByUserId")

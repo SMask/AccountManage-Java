@@ -72,6 +72,16 @@
                 <td>${user.lastName}</td>
             </tr>
             <tr>
+                <th>Birthday</th>
+                <td>
+                    <c:if test="${user.birthday>0}">
+                        <jsp:useBean id="birthdayValue" class="java.util.Date"/>
+                        <jsp:setProperty name="birthdayValue" property="time" value="${user.birthday}"/>
+                        <fmt:formatDate value="${birthdayValue}" pattern="yyyy-MM-dd"/>
+                    </c:if>
+                </td>
+            </tr>
+            <tr>
                 <th>Register Time</th>
                 <td>
                     <c:if test="${user.registerTime>0}">

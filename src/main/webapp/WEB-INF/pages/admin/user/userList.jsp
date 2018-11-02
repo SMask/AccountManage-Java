@@ -56,6 +56,7 @@
                 <th>密码</th>
                 <th>昵称</th>
                 <th>姓名</th>
+                <th>生日</th>
                 <th>注册时间</th>
                 <th>修改时间</th>
                 <th>Token</th>
@@ -69,6 +70,13 @@
                     <td>${user.password}</td>
                     <td>${user.nickname}</td>
                     <td>${user.firstName} ${user.lastName}</td>
+                    <td>
+                        <c:if test="${user.birthday>0}">
+                            <jsp:useBean id="birthdayValue" class="java.util.Date"/>
+                            <jsp:setProperty name="birthdayValue" property="time" value="${user.birthday}"/>
+                            <fmt:formatDate value="${birthdayValue}" pattern="yyyy-MM-dd"/>
+                        </c:if>
+                    </td>
                     <td>
                         <c:if test="${user.registerTime>0}">
                             <jsp:useBean id="registerTimeValue" class="java.util.Date"/>

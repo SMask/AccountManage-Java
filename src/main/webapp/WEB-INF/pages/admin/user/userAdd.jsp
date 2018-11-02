@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -74,6 +76,19 @@
             <label for="lastName">LastName:</label>
             <input type="text" class="form-control" id="lastName" name="lastName" value="${user.lastName}"
                    placeholder="Enter LastName:">
+        </div>
+        <div class="form-group">
+            <label for="birthday">Birthday:</label>
+            <form:errors path="birthday" cssClass="error"/>
+            <c:if test="${user.birthday>0}">
+                <jsp:useBean id="birthdayValue" class="java.util.Date"/>
+                <jsp:setProperty name="birthdayValue" property="time" value="${user.birthday}"/>
+                <input type="date" class="form-control" id="birthday" name="birthdayStr"
+                       value="<fmt:formatDate value="${birthdayValue}" pattern="yyyy-MM-dd"/>">
+            </c:if>
+            <c:if test="${user==null||user.birthday<=0}">
+                <input type="date" class="form-control" id="birthday" name="birthdayStr">
+            </c:if>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success">提交</button>

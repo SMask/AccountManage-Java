@@ -34,6 +34,10 @@
 
     <h3>出现此页面，说明配置成功。</h3>
 
+    <a href="${pageContext.request.contextPath}/datetimepicker" type="button" class="btn btn-primary btn-sm">DateTimePicker</a>
+
+    <hr/>
+
     <a href="${pageContext.request.contextPath}/admin/users" type="button" class="btn btn-primary btn-sm">用户管理</a>
 
     <a href="${pageContext.request.contextPath}/admin/blogs" type="button" class="btn btn-primary btn-sm">博客管理</a>

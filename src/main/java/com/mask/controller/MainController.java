@@ -17,4 +17,14 @@ public class MainController {
         return "index";
     }
 
+    /**
+     * 测试日期选择器
+     *
+     * @return 打开的页面路径
+     */
+    @RequestMapping(value = "/datetimepicker", method = RequestMethod.GET)
+    public String dateTimePicker() {
+        return "demo/datetimepicker";
+    }
+
 }

@@ -70,11 +70,13 @@ public class BlogController {
         }
 
 //        // 打印博客标题
-//        System.out.println("------");
+//        System.out.println("------------------------");
 //        System.out.println(blogEntity.getTitle());
 //        // 打印博客作者
+//        System.out.println(blogEntity.getUserByUserId().getId());
 //        System.out.println(blogEntity.getUserByUserId().getUsername());
-//        System.out.println("------");
+//        System.out.println(blogEntity.getUserByUserId().getNickname());
+//        System.out.println("------------------------");
 
         // 获取发布毫秒数
         long publishTime = System.currentTimeMillis();
@@ -98,11 +100,11 @@ public class BlogController {
             return true;
         }
 
-//        // 判断是否已选择Author
-//        if (blogEntity.getUserByUserId() == null) {
-//            bindingResult.rejectValue("userByUserId.id", "blog.user.illegal");
-//        }
-//
+        // 判断是否已选择Author
+        if (blogEntity.getUserByUserId() == null) {
+            bindingResult.rejectValue("userByUserId.id", "blog.user.illegal");
+        }
+
 //        // 显示其他错误信息
 //        if (bindingResult.hasErrors()) {
 //            return true;

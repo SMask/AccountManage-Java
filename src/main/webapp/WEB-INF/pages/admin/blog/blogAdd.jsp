@@ -56,7 +56,7 @@
                     <%--<option style='display: none'></option>--%>
                 <c:forEach items="${userList}" var="user">
                     <option value="${user.id}" <c:if test="${user.id==blog.userByUserId.id}"> selected </c:if> >
-                            ${user.username} - ${user.nickname} ${user.firstName} ${user.lastName}</option>
+                            ${user.id} - ${user.username} - ${user.nickname} ${user.firstName} ${user.lastName}</option>
                 </c:forEach>
             </select>
         </div>

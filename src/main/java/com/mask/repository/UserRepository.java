@@ -21,10 +21,22 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
      */
     List<UserEntity> findAllByUsername(String username);
 
+    /**
+     * 修改用户信息
+     *
+     * @param username   username
+     * @param password   password
+     * @param nickname   nickname
+     * @param firstName  firstName
+     * @param lastName   lastName
+     * @param birthday   birthday
+     * @param updateTime updateTime
+     * @param id         id
+     */
     @Modifying      // 说明该方法是修改操作
     @Transactional  // 说明该方法是事务性操作
     // 定义查询
     // @Param注解用于提取参数
-    @Query("update UserEntity us set us.username=:qUsername, us.password=:qPassword, us.nickname=:qNickname, us.firstName=:qFirstName, us.lastName=:qLastName,us.birthday=:qBirthday,us.updateTime=:qUpdateTime where us.id=:qId")
-    void update(@Param("qUsername") String username, @Param("qPassword") String password, @Param("qNickname") String nickname, @Param("qFirstName") String firstName, @Param("qLastName") String lastName, @Param("qBirthday") long birthday, @Param("qUpdateTime") long updateTime, @Param("qId") Integer id);
+    @Query("update UserEntity user set user.username=:qUsername, user.password=:qPassword, user.nickname=:qNickname, user.firstName=:qFirstName, user.lastName=:qLastName,user.birthday=:qBirthday,user.updateTime=:qUpdateTime where user.id=:qId")
+    void update(@Param("qUsername") String username, @Param("qPassword") String password, @Param("qNickname") String nickname, @Param("qFirstName") String firstName, @Param("qLastName") String lastName, @Param("qBirthday") long birthday, @Param("qUpdateTime") long updateTime, @Param("qId") int id);
 }

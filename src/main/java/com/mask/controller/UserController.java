@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -105,7 +104,7 @@ public class UserController {
      * @return 打开的页面路径
      */
     @RequestMapping(value = "/admin/users/show/{id}", method = RequestMethod.GET)
-    public String showUser(@PathVariable("id") Integer userId, ModelMap modelMap) {
+    public String showUser(@PathVariable("id") int userId, ModelMap modelMap) {
         // 找到 userId 所表示的用户
         UserEntity userEntity = findById(userId);
 
@@ -123,7 +122,7 @@ public class UserController {
      * @return 打开的页面路径
      */
     @RequestMapping(value = "/admin/users/update/{id}", method = RequestMethod.GET)
-    public String updateUser(@PathVariable("id") Integer userId, ModelMap modelMap) {
+    public String updateUser(@PathVariable("id") int userId, ModelMap modelMap) {
         // 找到 userId 所表示的用户
         UserEntity userEntity = findById(userId);
 
@@ -182,7 +181,7 @@ public class UserController {
      * @return 打开的页面路径
      */
     @RequestMapping(value = "/admin/users/delete/{id}", method = RequestMethod.GET)
-    public String deleteUser(@PathVariable("id") Integer userId) {
+    public String deleteUser(@PathVariable("id") int userId) {
         // 找到 userId 所表示的用户
         UserEntity userEntity = findById(userId);
         // 判断是否存在

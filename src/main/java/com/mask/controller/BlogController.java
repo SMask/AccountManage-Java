@@ -106,6 +106,56 @@ public class BlogController {
     }
 
     /**
+     * get请求，访问 更新博文 页面
+     *
+     * @param blogId   blogId
+     * @param modelMap modelMap
+     * @return 打开的页面路径
+     */
+    @RequestMapping("/admin/blogs/update/{id}")
+    public String updateBlog(@PathVariable("id") int blogId, ModelMap modelMap) {
+        BlogEntity blogEntity = findById(blogId);
+        List<UserEntity> userList = userRepository.findAll();
+        modelMap.addAttribute("blog", blogEntity);
+        modelMap.addAttribute("userList", userList);
+        return "admin/blog/blogUpdate";
+    }
+
+    /**
+     * post请求，处理更新博文请求，并重定向到博客管理页面
+     *
+     * @param blogEntity    blogEntity
+     * @param bindingResult bindingResult
+     * @param modelMap      modelMap
+     * @return 打开的页面路径
+     */
+    @RequestMapping(value = "/admin/blogs/updateP", method = RequestMethod.POST)
+    public String updateBlogPost(@Validated @ModelAttribute("blog") BlogEntity blogEntity, BindingResult bindingResult, ModelMap modelMap) {
+        // 拦截错误信息
+        if (isIntercept(blogEntity, bindingResult)) {
+            List<UserEntity> userList = userRepository.findAll();
+            // 向jsp注入用户列表
+            modelMap.addAttribute("userList", userList);
+            return "admin/blog/blogUpdate";
+        }
+
+        // 可分字段更新
+        // 获取数据
+        int id = blogEntity.getId();
+        String title = blogEntity.getTitle();
+        int userId = blogEntity.getUserByUserId().getId();
+        String content = blogEntity.getContent();
+        // 更新毫秒数
+        long updateTime = System.currentTimeMillis();
+        // 更新用户信息
+        blogRepository.update(title, userId, content, updateTime, id);
+        // 刷新缓冲区
+        blogRepository.flush();
+
+        return "redirect:/admin/blogs";
+    }
+
+    /**
      * 是否拦截用户信息
      *
      * @param blogEntity    blogEntity
@@ -123,10 +173,10 @@ public class BlogController {
             bindingResult.rejectValue("userByUserId.id", "blog.user.illegal");
         }
 
-//        // 显示其他错误信息
-//        if (bindingResult.hasErrors()) {
-//            return true;
-//        }
+        // 显示其他错误信息
+        if (bindingResult.hasErrors()) {
+            return true;
+        }
 
         return false;
     }

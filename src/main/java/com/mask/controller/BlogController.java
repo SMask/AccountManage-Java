@@ -147,7 +147,7 @@ public class BlogController {
         String content = blogEntity.getContent();
         // 更新毫秒数
         long updateTime = System.currentTimeMillis();
-        // 更新用户信息
+        // 更新博文信息
         blogRepository.update(title, userId, content, updateTime, id);
         // 刷新缓冲区
         blogRepository.flush();
@@ -156,7 +156,29 @@ public class BlogController {
     }
 
     /**
-     * 是否拦截用户信息
+     * 删除博文
+     *
+     * @param blogId blogId
+     * @return 打开的页面路径
+     */
+    @RequestMapping(value = "/admin/blogs/delete/{id}", method = RequestMethod.GET)
+    public String deleteBlog(@PathVariable("id") int blogId) {
+        // 找到 blogId 所表示的博文
+        BlogEntity blogEntity = findById(blogId);
+        // 判断是否存在
+        if (blogEntity != null) {
+            // 删除id为userId的博文
+            blogRepository.deleteById(blogId);
+
+            // 立即刷新
+            blogRepository.flush();
+        }
+
+        return "redirect:/admin/blogs";
+    }
+
+    /**
+     * 是否拦截博文信息
      *
      * @param blogEntity    blogEntity
      * @param bindingResult bindingResult

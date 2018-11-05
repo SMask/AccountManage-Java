@@ -85,7 +85,7 @@
                            class="btn btn-sm btn-success">详情</a>
                         <a href="${pageContext.request.contextPath}/admin/blogs/update/${blog.id}" type="button"
                            class="btn btn-sm btn-warning">修改</a>
-                        <a href="javascript:if(confirm('是否确认删除博客${blog.title}？'))location='${pageContext.request.contextPath}/admin/blogs/delete/${user.id}'"
+                        <a href="javascript:if(confirm('是否确认删除博文${blog.title}？'))location='${pageContext.request.contextPath}/admin/blogs/delete/${blog.id}'"
                            type="button"
                            class="btn btn-sm btn-danger">删除</a>
                     </td>

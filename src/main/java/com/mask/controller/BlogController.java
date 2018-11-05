@@ -10,10 +10,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BlogController {
@@ -88,6 +90,22 @@ public class BlogController {
     }
 
     /**
+     * 查看博文详情
+     * <p>
+     * 默认使用GET方法时，method可以缺省
+     *
+     * @param blogId   blogId
+     * @param modelMap modelMap
+     * @return 打开的页面路径
+     */
+    @RequestMapping("/admin/blogs/show/{id}")
+    public String showBlog(@PathVariable("id") int blogId, ModelMap modelMap) {
+        BlogEntity blogEntity = findById(blogId);
+        modelMap.addAttribute("blog", blogEntity);
+        return "admin/blog/blogDetail";
+    }
+
+    /**
      * 是否拦截用户信息
      *
      * @param blogEntity    blogEntity
@@ -111,6 +129,21 @@ public class BlogController {
 //        }
 
         return false;
+    }
+
+    /**
+     * 查找博文
+     *
+     * @param blogId blogId
+     * @return BlogEntity
+     */
+    private BlogEntity findById(int blogId) {
+        BlogEntity blogEntity = null;
+        Optional<BlogEntity> blogOptional = blogRepository.findById(blogId);
+        if (blogOptional.isPresent()) {
+            blogEntity = blogOptional.get();
+        }
+        return blogEntity;
     }
 
 }

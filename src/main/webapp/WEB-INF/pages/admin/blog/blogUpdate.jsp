@@ -10,6 +10,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+
+    String url = path + "/admin/blogs";
+%>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +24,8 @@
 
     <c:if test="${blog==null}">
         <title>博文更新</title>
+
+        <meta http-equiv="refresh" content="5;url=<%=url%>">
     </c:if>
 
     <c:if test="${blog!=null}">
@@ -43,6 +51,23 @@
     <c:if test="${blog==null}">
         <h1 style="color: red">Error!</h1>
         <h1>该博文不存在</h1>
+
+        <h2 style=color:red><span id=jump>5</span> 秒钟后页面将自动返回...</h2>
+        <h2><a href="javascript:void(0);" onclick="jumpToIndex()">点击此处立即跳转</a></h2>
+
+        <script>
+            function countDown(secs) {
+                jump.innerText = secs;
+                if (--secs > 0)
+                    setTimeout("countDown(" + secs + " )", 1000);
+            }
+
+            countDown(5);
+
+            function jumpToIndex() {
+                window.location.href = '<%=url %>';
+            }
+        </script>
     </c:if>
 
     <c:if test="${blog!=null}">

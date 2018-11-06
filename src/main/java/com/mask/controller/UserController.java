@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/admin/users")
 public class UserController {
 
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
@@ -31,7 +32,7 @@ public class UserController {
      * @param modelMap modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String showUsers(ModelMap modelMap) {
         // 查询user表中所有记录
         List<UserEntity> userList = userRepository.findAll();
@@ -48,7 +49,7 @@ public class UserController {
      *
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/users/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addUser() {
         // 转到 admin/addUser.jsp页面
         return "admin/user/userAdd";
@@ -65,7 +66,7 @@ public class UserController {
      * @param bindingResult bindingResult
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/users/addP", method = RequestMethod.POST)
+    @RequestMapping(value = "/addP", method = RequestMethod.POST)
     public String addUserPost(@Validated @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
         // 注意此处，post请求传递过来的是一个UserEntity对象，里面包含了该用户的信息
         // 通过@ModelAttribute()注解可以获取传递过来的'user'，并创建这个对象
@@ -103,7 +104,7 @@ public class UserController {
      * @param modelMap modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/users/show/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String showUser(@PathVariable("id") int userId, ModelMap modelMap) {
         // 找到 userId 所表示的用户
         UserEntity userEntity = findById(userId);
@@ -121,7 +122,7 @@ public class UserController {
      * @param modelMap modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/users/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String updateUser(@PathVariable("id") int userId, ModelMap modelMap) {
         // 找到 userId 所表示的用户
         UserEntity userEntity = findById(userId);
@@ -139,7 +140,7 @@ public class UserController {
      * @param bindingResult bindingResult
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/users/updateP", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateP", method = RequestMethod.POST)
     public String updateUserPost(@Validated @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
         refreshBirthday(userEntity);
 
@@ -180,7 +181,7 @@ public class UserController {
      * @param userId userId
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/users/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable("id") int userId) {
         // 找到 userId 所表示的用户
         UserEntity userEntity = findById(userId);

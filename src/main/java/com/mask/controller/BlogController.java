@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/admin/blogs")
 public class BlogController {
 
     @Autowired
@@ -32,7 +33,7 @@ public class BlogController {
      * @param modelMap modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/blogs", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String showBlogs(ModelMap modelMap) {
         List<BlogEntity> blogList = blogRepository.findAll();
         modelMap.addAttribute("blogList", blogList);
@@ -45,7 +46,7 @@ public class BlogController {
      * @param modelMap modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/blogs/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addBlog(ModelMap modelMap) {
         List<UserEntity> userList = userRepository.findAll();
         // 向jsp注入用户列表
@@ -61,7 +62,7 @@ public class BlogController {
      * @param modelMap      modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/blogs/addP", method = RequestMethod.POST)
+    @RequestMapping(value = "/addP", method = RequestMethod.POST)
     public String addBlogPost(@Validated @ModelAttribute("blog") BlogEntity blogEntity, BindingResult bindingResult, ModelMap modelMap) {
         // 拦截错误信息
         if (isIntercept(blogEntity, bindingResult)) {
@@ -98,7 +99,7 @@ public class BlogController {
      * @param modelMap modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping("/admin/blogs/show/{id}")
+    @RequestMapping("/show/{id}")
     public String showBlog(@PathVariable("id") int blogId, ModelMap modelMap) {
         BlogEntity blogEntity = findById(blogId);
         modelMap.addAttribute("blog", blogEntity);
@@ -112,7 +113,7 @@ public class BlogController {
      * @param modelMap modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping("/admin/blogs/update/{id}")
+    @RequestMapping("/update/{id}")
     public String updateBlog(@PathVariable("id") int blogId, ModelMap modelMap) {
         BlogEntity blogEntity = findById(blogId);
         List<UserEntity> userList = userRepository.findAll();
@@ -129,7 +130,7 @@ public class BlogController {
      * @param modelMap      modelMap
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/blogs/updateP", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateP", method = RequestMethod.POST)
     public String updateBlogPost(@Validated @ModelAttribute("blog") BlogEntity blogEntity, BindingResult bindingResult, ModelMap modelMap) {
         // 拦截错误信息
         if (isIntercept(blogEntity, bindingResult)) {
@@ -161,7 +162,7 @@ public class BlogController {
      * @param blogId blogId
      * @return 打开的页面路径
      */
-    @RequestMapping(value = "/admin/blogs/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteBlog(@PathVariable("id") int blogId) {
         // 找到 blogId 所表示的博文
         BlogEntity blogEntity = findById(blogId);

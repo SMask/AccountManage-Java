@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Blog Web Controller
+ */
 @Controller
 @RequestMapping("/admin/blogs")
 public class BlogController {
@@ -26,6 +29,8 @@ public class BlogController {
 
     @Autowired
     UserRepository userRepository;
+
+    /* ********************************************* Web页面 **********************************************/
 
     /**
      * 博客管理
@@ -177,6 +182,9 @@ public class BlogController {
 
         return "redirect:/admin/blogs";
     }
+    /* ********************************************* Web页面 **********************************************/
+
+    /* ********************************************* 公共方法 **********************************************/
 
     /**
      * 是否拦截博文信息
@@ -218,5 +226,6 @@ public class BlogController {
         }
         return blogEntity;
     }
+    /* ********************************************* 公共方法 **********************************************/
 
 }

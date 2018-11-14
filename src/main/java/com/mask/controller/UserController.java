@@ -18,6 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * User Web Controller
+ */
 @Controller
 @RequestMapping("/admin/users")
 public class UserController {
@@ -25,6 +28,8 @@ public class UserController {
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
     @Autowired
     UserRepository userRepository;
+
+    /* ********************************************* Web页面 **********************************************/
 
     /**
      * 用户管理
@@ -196,6 +201,9 @@ public class UserController {
 
         return "redirect:/admin/users";
     }
+    /* ********************************************* Web页面 **********************************************/
+
+    /* ********************************************* 公共方法 **********************************************/
 
     /**
      * 解析 Birthday 时间戳
@@ -284,5 +292,6 @@ public class UserController {
         }
         return userEntity;
     }
+    /* ********************************************* 公共方法 **********************************************/
 
 }

@@ -131,6 +131,51 @@
                 <td>${user.token}</td>
             </tr>
         </table>
+
+        <h3>博客列表</h3>
+        <hr/>
+
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>内容</th>
+                <th>发布时间</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            <c:forEach items="${blogList}" var="blog">
+                <tr>
+                    <td>${blog.id}</td>
+                    <td>${blog.title}</td>
+                    <td>${blog.content}</td>
+                    <td>
+                        <c:if test="${blog.publishTime>0}">
+                            <jsp:useBean id="blogPublishTimeValue" class="java.util.Date"/>
+                            <jsp:setProperty name="blogPublishTimeValue" property="time" value="${blog.publishTime}"/>
+                            <fmt:formatDate value="${blogPublishTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${blog.updateTime>0}">
+                            <jsp:useBean id="blogUpdateTimeValue" class="java.util.Date"/>
+                            <jsp:setProperty name="blogUpdateTimeValue" property="time" value="${blog.updateTime}"/>
+                            <fmt:formatDate value="${blogUpdateTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </c:if>
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/admin/blogs/show/${blog.id}" type="button"
+                           class="btn btn-sm btn-success">详情</a>
+                        <a href="${pageContext.request.contextPath}/admin/blogs/update/${blog.id}" type="button"
+                           class="btn btn-sm btn-warning">修改</a>
+                        <a href="javascript:if(confirm('是否确认删除博文${blog.title}？'))location='${pageContext.request.contextPath}/admin/blogs/delete/${blog.id}'"
+                           type="button"
+                           class="btn btn-sm btn-danger">删除</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+
     </c:if>
 </div>
 

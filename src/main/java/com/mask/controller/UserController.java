@@ -1,6 +1,8 @@
 package com.mask.controller;
 
+import com.mask.model.BlogEntity;
 import com.mask.model.UserEntity;
+import com.mask.repository.BlogRepository;
 import com.mask.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,9 @@ public class UserController {
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BlogRepository blogRepository;
 
     /* ********************************************* Web页面 **********************************************/
 
@@ -114,8 +119,11 @@ public class UserController {
         // 找到 userId 所表示的用户
         UserEntity userEntity = findById(userId);
 
+        List<BlogEntity> blogList = blogRepository.findAllByUserByUserId(userEntity);
+
         // 传递数据给页面
         modelMap.addAttribute("user", userEntity);
+        modelMap.addAttribute("blogList", blogList);
 
         return "admin/user/userDetail";
     }

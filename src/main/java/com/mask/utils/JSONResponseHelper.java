@@ -30,7 +30,7 @@ public class JSONResponseHelper {
         JSONObject result = new JSONObject();
         result.put("code", code);
         result.put("message", message);
-        result.put("date", data);
+        result.put("data", data);
         return result.toString();
     }
 

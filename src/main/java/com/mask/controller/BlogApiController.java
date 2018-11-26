@@ -1,7 +1,7 @@
 package com.mask.controller;
 
-import com.mask.model.UserEntity;
-import com.mask.repository.UserRepository;
+import com.mask.model.BlogEntity;
+import com.mask.repository.BlogRepository;
 import com.mask.utils.JSONResponseHelper;
 import com.mask.utils.ModelHelper;
 import org.json.JSONArray;
@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * User Web Controller
+ * Blog Web Controller
  */
 @Controller
-@RequestMapping("/api/user")
-public class UserApiController {
+@RequestMapping("/api/blog")
+public class BlogApiController {
 
-    private final UserRepository userRepository;
+    private final BlogRepository blogRepository;
 
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
     @Autowired
-    public UserApiController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public BlogApiController(BlogRepository blogRepository) {
+        this.blogRepository = blogRepository;
     }
 
     /* ********************************************* Api接口 **********************************************/
@@ -37,10 +37,10 @@ public class UserApiController {
 
         JSONArray list = new JSONArray();
 
-        // 查询user表中所有记录
-        List<UserEntity> userList = userRepository.findAll();
-        for (UserEntity userEntity : userList) {
-            list.put(ModelHelper.getJSONObject(userEntity));
+        // 查询blog表中所有记录
+        List<BlogEntity> blogList = blogRepository.findAll();
+        for (BlogEntity blogEntity : blogList) {
+            list.put(ModelHelper.getJSONObject(blogEntity));
         }
 
         data.put("list", list);

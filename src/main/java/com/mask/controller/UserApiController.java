@@ -21,9 +21,13 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserApiController {
 
+    private final UserRepository userRepository;
+
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
     @Autowired
-    UserRepository userRepository;
+    public UserApiController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /* ********************************************* Api接口 **********************************************/
 

@@ -24,11 +24,15 @@ import java.util.Optional;
 @RequestMapping("/admin/blogs")
 public class BlogController {
 
-    @Autowired
-    BlogRepository blogRepository;
+    private final BlogRepository blogRepository;
+
+    private final UserRepository userRepository;
 
     @Autowired
-    UserRepository userRepository;
+    public BlogController(BlogRepository blogRepository, UserRepository userRepository) {
+        this.blogRepository = blogRepository;
+        this.userRepository = userRepository;
+    }
 
     /* ********************************************* Web页面 **********************************************/
 

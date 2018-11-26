@@ -7,15 +7,40 @@ import org.json.JSONObject;
  */
 public class JSONResponseHelper {
 
+    private final static int CODE_SUCCESS = 200;// 成功返回码
+    private final static int CODE_ERROR = 500;// 错误返回码
+
+    /**
+     * 获取结果 (错误)
+     * 默认 code {@link #CODE_ERROR}
+     *
+     * @param message message
+     * @return String
+     */
+    public static String getResultError(String message) {
+        return getResultError(CODE_ERROR, message);
+    }
+
+    /**
+     * 获取结果 (错误)
+     *
+     * @param code    code
+     * @param message message
+     * @return String
+     */
+    public static String getResultError(int code, String message) {
+        return getResult(code, message, null);
+    }
+
     /**
      * 获取结果
-     * 默认 code 200 message ""
+     * 默认 code {@link #CODE_SUCCESS} message ""
      *
      * @param data JSONObject
      * @return String
      */
     public static String getResult(JSONObject data) {
-        return getResult(200, "", data);
+        return getResult(CODE_SUCCESS, "", data);
     }
 
     /**

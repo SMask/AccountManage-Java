@@ -72,4 +72,14 @@
         <property name="cacheSeconds" value="120"/>
     </bean>
 
+
+    <!-- ResponseBody 返回中文乱码问题 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
 </beans>

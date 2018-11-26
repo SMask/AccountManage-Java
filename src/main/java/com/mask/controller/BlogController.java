@@ -4,6 +4,7 @@ import com.mask.model.BlogEntity;
 import com.mask.model.UserEntity;
 import com.mask.repository.BlogRepository;
 import com.mask.repository.UserRepository;
+import com.mask.utils.ModelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -110,7 +111,7 @@ public class BlogController {
      */
     @RequestMapping("/show/{id}")
     public String showBlog(@PathVariable("id") int blogId, ModelMap modelMap) {
-        BlogEntity blogEntity = findById(blogId);
+        BlogEntity blogEntity = ModelHelper.findById(blogRepository, blogId);
         modelMap.addAttribute("blog", blogEntity);
         return "admin/blog/blogDetail";
     }
@@ -124,7 +125,7 @@ public class BlogController {
      */
     @RequestMapping("/update/{id}")
     public String updateBlog(@PathVariable("id") int blogId, ModelMap modelMap) {
-        BlogEntity blogEntity = findById(blogId);
+        BlogEntity blogEntity = ModelHelper.findById(blogRepository, blogId);
         List<UserEntity> userList = userRepository.findAll();
         modelMap.addAttribute("blog", blogEntity);
         modelMap.addAttribute("userList", userList);
@@ -174,7 +175,7 @@ public class BlogController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteBlog(@PathVariable("id") int blogId) {
         // 找到 blogId 所表示的博文
-        BlogEntity blogEntity = findById(blogId);
+        BlogEntity blogEntity = ModelHelper.findById(blogRepository, blogId);
         // 判断是否存在
         if (blogEntity != null) {
             // 删除id为userId的博文
@@ -214,21 +215,6 @@ public class BlogController {
         }
 
         return false;
-    }
-
-    /**
-     * 查找博文
-     *
-     * @param blogId blogId
-     * @return BlogEntity
-     */
-    private BlogEntity findById(int blogId) {
-        BlogEntity blogEntity = null;
-        Optional<BlogEntity> blogOptional = blogRepository.findById(blogId);
-        if (blogOptional.isPresent()) {
-            blogEntity = blogOptional.get();
-        }
-        return blogEntity;
     }
     /* ********************************************* 公共方法 **********************************************/
 

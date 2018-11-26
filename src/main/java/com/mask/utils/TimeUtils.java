@@ -38,6 +38,9 @@ public class TimeUtils {
      * @return String
      */
     public static String format(String pattern, long timeMillis) {
+        if (timeMillis <= 0) {
+            return null;
+        }
         DateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
         return dateFormat.format(new Date(timeMillis));
     }

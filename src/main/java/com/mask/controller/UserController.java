@@ -4,6 +4,7 @@ import com.mask.model.BlogEntity;
 import com.mask.model.UserEntity;
 import com.mask.repository.BlogRepository;
 import com.mask.repository.UserRepository;
+import com.mask.utils.ModelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,7 +19,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * User Web Controller
@@ -121,7 +121,7 @@ public class UserController {
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String showUser(@PathVariable("id") int userId, ModelMap modelMap) {
         // 找到 userId 所表示的用户
-        UserEntity userEntity = findById(userId);
+        UserEntity userEntity = ModelHelper.findById(userRepository, userId);
 
         List<BlogEntity> blogList = blogRepository.findAllByUserByUserId(userEntity);
 
@@ -142,7 +142,7 @@ public class UserController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String updateUser(@PathVariable("id") int userId, ModelMap modelMap) {
         // 找到 userId 所表示的用户
-        UserEntity userEntity = findById(userId);
+        UserEntity userEntity = ModelHelper.findById(userRepository, userId);
 
         // 传递数据给页面
         modelMap.addAttribute("user", userEntity);
@@ -201,7 +201,7 @@ public class UserController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable("id") int userId) {
         // 找到 userId 所表示的用户
-        UserEntity userEntity = findById(userId);
+        UserEntity userEntity = ModelHelper.findById(userRepository, userId);
         // 判断是否存在
         if (userEntity != null) {
             // 删除id为userId的用户
@@ -288,21 +288,6 @@ public class UserController {
         }
 
         return false;
-    }
-
-    /**
-     * 查找用户
-     *
-     * @param userId userId
-     * @return UserEntity
-     */
-    private UserEntity findById(int userId) {
-        UserEntity userEntity = null;
-        Optional<UserEntity> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            userEntity = userOptional.get();
-        }
-        return userEntity;
     }
     /* ********************************************* 公共方法 **********************************************/
 

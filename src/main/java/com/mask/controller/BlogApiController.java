@@ -30,6 +30,11 @@ public class BlogApiController {
 
     /* ********************************************* Api接口 **********************************************/
 
+    /**
+     * Blog列表
+     *
+     * @return String
+     */
     @ResponseBody
     @RequestMapping(value = "/list")
     public String getList() {

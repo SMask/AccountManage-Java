@@ -16,7 +16,18 @@ import java.util.Optional;
 public class ModelHelper {
 
     /**
-     * 查找User
+     * 查找数据 User
+     *
+     * @param userRepository userRepository
+     * @param userId         userId
+     * @return UserEntity
+     */
+    public static UserEntity findById(UserRepository userRepository, String userId) {
+        return findById(userRepository, Integer.parseInt(userId));
+    }
+
+    /**
+     * 查找数据 User
      *
      * @param userRepository userRepository
      * @param userId         userId
@@ -32,7 +43,18 @@ public class ModelHelper {
     }
 
     /**
-     * 查找Blog
+     * 查找数据 Blog
+     *
+     * @param blogRepository blogRepository
+     * @param blogId         blogId
+     * @return UserEntity
+     */
+    public static BlogEntity findById(BlogRepository blogRepository, String blogId) {
+        return findById(blogRepository, Integer.parseInt(blogId));
+    }
+
+    /**
+     * 查找数据 Blog
      *
      * @param blogRepository blogRepository
      * @param blogId         blogId
@@ -48,7 +70,7 @@ public class ModelHelper {
     }
 
     /**
-     * 获取 User JSONObject
+     * 获取数据 User JSONObject
      *
      * @param userEntity userEntity
      * @return JSONObject
@@ -58,7 +80,7 @@ public class ModelHelper {
     }
 
     /**
-     * 获取 User JSONObject
+     * 获取数据 User JSONObject
      *
      * @param userEntity userEntity
      * @param isShowBlog 是否显示 blog 字段
@@ -96,7 +118,7 @@ public class ModelHelper {
     }
 
     /**
-     * 获取 Blog JSONObject
+     * 获取数据 Blog JSONObject
      *
      * @param blogEntity blogEntity
      * @return JSONObject
@@ -106,7 +128,7 @@ public class ModelHelper {
     }
 
     /**
-     * 获取 Blog JSONObject
+     * 获取数据 Blog JSONObject
      *
      * @param blogEntity   blogEntity
      * @param isShowAuthor 是否显示 author 字段

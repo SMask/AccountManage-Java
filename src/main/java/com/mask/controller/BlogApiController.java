@@ -1,7 +1,10 @@
 package com.mask.controller;
 
 import com.mask.model.BlogEntity;
+import com.mask.model.UserEntity;
 import com.mask.repository.BlogRepository;
+import com.mask.utils.ApiControllerHelper;
+import com.mask.utils.BaseUtils;
 import com.mask.utils.JSONResponseHelper;
 import com.mask.utils.ModelHelper;
 import org.json.JSONArray;
@@ -9,16 +12,17 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 /**
- * Blog Web Controller
+ * Blog API Controller
  */
 @Controller
 @RequestMapping("/api/blog")
-public class BlogApiController {
+public class BlogApiController implements ApiController {
 
     private final BlogRepository blogRepository;
 
@@ -49,6 +53,33 @@ public class BlogApiController {
         }
 
         data.put("list", list);
+
+        return JSONResponseHelper.getResult(data);
+    }
+
+    /**
+     * Blog详情
+     *
+     * @param id id
+     * @return String
+     */
+    @ResponseBody
+    @RequestMapping(value = "/detail")
+    public String getDetail(@RequestParam(value = "id", required = false) String id) {
+        String errorMsg = ApiControllerHelper.checkId(id);
+        if (!BaseUtils.isEmptyString(errorMsg)) {
+            return JSONResponseHelper.getResultError(errorMsg);
+        }
+
+        JSONObject data = new JSONObject();
+
+        BlogEntity blogEntity = ModelHelper.findById(blogRepository, id);
+
+        if (blogEntity == null) {
+            return JSONResponseHelper.getResultError(TIPS_BLOG_NULL);
+        }
+
+        data.put("blog", ModelHelper.getJSONObject(blogEntity, true));
 
         return JSONResponseHelper.getResult(data);
     }

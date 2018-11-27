@@ -4,6 +4,7 @@ import com.mask.model.BlogEntity;
 import com.mask.model.UserEntity;
 import com.mask.repository.BlogRepository;
 import com.mask.repository.UserRepository;
+import com.mask.utils.ApiControllerHelper;
 import com.mask.utils.BaseUtils;
 import com.mask.utils.JSONResponseHelper;
 import com.mask.utils.ModelHelper;
@@ -18,15 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * User Web Controller
+ * User API Controller
  */
 @Controller
 @RequestMapping("/api/user")
-public class UserApiController {
-
-    private final static String TIPS_USER_NULL = "该用户不存在";
-    private final static String TIPS_USER_ID_NULL = "id不能为空";
-    private final static String TIPS_USER_ID_ERROR = "id参数错误";
+public class UserApiController implements ApiController {
 
     private final UserRepository userRepository;
     private final BlogRepository blogRepository;
@@ -72,24 +69,14 @@ public class UserApiController {
     @ResponseBody
     @RequestMapping(value = "/detail")
     public String getDetail(@RequestParam(value = "id", required = false) String id) {
-        if (BaseUtils.isEmptyString(id)) {
-            return JSONResponseHelper.getResultError(TIPS_USER_ID_NULL);
-        }
-
-        int userId = -1;
-        try {
-            userId = Integer.parseInt(id);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-
-        if (userId <= 0) {
-            return JSONResponseHelper.getResultError(TIPS_USER_ID_ERROR);
+        String errorMsg = ApiControllerHelper.checkId(id);
+        if (!BaseUtils.isEmptyString(errorMsg)) {
+            return JSONResponseHelper.getResultError(errorMsg);
         }
 
         JSONObject data = new JSONObject();
 
-        UserEntity userEntity = ModelHelper.findById(userRepository, userId);
+        UserEntity userEntity = ModelHelper.findById(userRepository, id);
 
         if (userEntity == null) {
             return JSONResponseHelper.getResultError(TIPS_USER_NULL);

@@ -4,8 +4,10 @@ import com.mask.model.BlogEntity;
 import com.mask.model.UserEntity;
 import com.mask.repository.BlogRepository;
 import com.mask.repository.UserRepository;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -52,6 +54,17 @@ public class ModelHelper {
      * @return JSONObject
      */
     public static JSONObject getJSONObject(UserEntity userEntity) {
+        return getJSONObject(userEntity, false);
+    }
+
+    /**
+     * 获取 User JSONObject
+     *
+     * @param userEntity userEntity
+     * @param isShowBlog 是否显示 blog 字段
+     * @return JSONObject
+     */
+    public static JSONObject getJSONObject(UserEntity userEntity, boolean isShowBlog) {
         if (userEntity == null) {
             return null;
         }
@@ -68,6 +81,17 @@ public class ModelHelper {
         temp.put("updateTime", TimeUtils.getDateTime(userEntity.getUpdateTime()));
         temp.put("token", userEntity.getToken());
 
+        if (isShowBlog) {
+            Collection<BlogEntity> blogList = userEntity.getBlogsById();
+            if (blogList != null && !blogList.isEmpty()) {
+                JSONArray jsonArr = new JSONArray();
+                for (BlogEntity blogEntity : blogList) {
+                    jsonArr.put(getJSONObject(blogEntity, false));
+                }
+                temp.put("blogs", jsonArr);
+            }
+        }
+
         return temp;
     }
 
@@ -78,6 +102,17 @@ public class ModelHelper {
      * @return JSONObject
      */
     public static JSONObject getJSONObject(BlogEntity blogEntity) {
+        return getJSONObject(blogEntity, true);
+    }
+
+    /**
+     * 获取 Blog JSONObject
+     *
+     * @param blogEntity   blogEntity
+     * @param isShowAuthor 是否显示 author 字段
+     * @return JSONObject
+     */
+    public static JSONObject getJSONObject(BlogEntity blogEntity, boolean isShowAuthor) {
         if (blogEntity == null) {
             return null;
         }
@@ -86,9 +121,12 @@ public class ModelHelper {
         temp.put("id", blogEntity.getId());
         temp.put("title", blogEntity.getTitle());
         temp.put("content", blogEntity.getContent());
-        temp.put("author", getJSONObject(blogEntity.getUserByUserId()));
         temp.put("publishTime", TimeUtils.getDateTime(blogEntity.getPublishTime()));
         temp.put("updateTime", TimeUtils.getDateTime(blogEntity.getUpdateTime()));
+
+        if (isShowAuthor) {
+            temp.put("author", getJSONObject(blogEntity.getUserByUserId()));
+        }
 
         return temp;
     }

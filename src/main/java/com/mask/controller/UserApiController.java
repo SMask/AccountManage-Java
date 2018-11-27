@@ -1,6 +1,8 @@
 package com.mask.controller;
 
+import com.mask.model.BlogEntity;
 import com.mask.model.UserEntity;
+import com.mask.repository.BlogRepository;
 import com.mask.repository.UserRepository;
 import com.mask.utils.BaseUtils;
 import com.mask.utils.JSONResponseHelper;
@@ -27,11 +29,13 @@ public class UserApiController {
     private final static String TIPS_USER_ID_ERROR = "id参数错误";
 
     private final UserRepository userRepository;
+    private final BlogRepository blogRepository;
 
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
     @Autowired
-    public UserApiController(UserRepository userRepository) {
+    public UserApiController(UserRepository userRepository, BlogRepository blogRepository) {
         this.userRepository = userRepository;
+        this.blogRepository = blogRepository;
     }
 
     /* ********************************************* Api接口 **********************************************/
@@ -91,7 +95,10 @@ public class UserApiController {
             return JSONResponseHelper.getResultError(TIPS_USER_NULL);
         }
 
-        data.put("user", ModelHelper.getJSONObject(userEntity));
+        List<BlogEntity> blogList = blogRepository.findAllByUserByUserId(userEntity);
+        userEntity.setBlogsById(blogList);
+
+        data.put("user", ModelHelper.getJSONObject(userEntity, true));
 
         return JSONResponseHelper.getResult(data);
     }

@@ -28,7 +28,6 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
-
     private final BlogRepository blogRepository;
 
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库

@@ -26,7 +26,6 @@ import java.util.Optional;
 public class BlogController {
 
     private final BlogRepository blogRepository;
-
     private final UserRepository userRepository;
 
     @Autowired

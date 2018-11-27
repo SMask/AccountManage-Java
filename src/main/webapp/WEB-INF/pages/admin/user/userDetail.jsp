@@ -71,10 +71,10 @@
         <h1>${user.nickname} 详情</h1>
         <hr/>
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="table-layout: fixed">
             <tr>
-                <th>ID</th>
-                <td>${user.id}</td>
+                <th style="width: 15%">ID</th>
+                <td style="width: 85%">${user.id}</td>
             </tr>
             <tr>
                 <th>Username</th>
@@ -135,20 +135,20 @@
         <h3>博客列表</h3>
         <hr/>
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="table-layout: fixed">
             <tr>
-                <th>ID</th>
-                <th>标题</th>
-                <th>内容</th>
-                <th>发布时间</th>
-                <th>修改时间</th>
-                <th>操作</th>
+                <th style="width: 5%">ID</th>
+                <th style="width: 10%">标题</th>
+                <th style="width: 40%">内容</th>
+                <th style="width: 15%">发布时间</th>
+                <th style="width: 15%">修改时间</th>
+                <th style="width: 15%">操作</th>
             </tr>
             <c:forEach items="${blogList}" var="blog">
                 <tr>
                     <td>${blog.id}</td>
                     <td>${blog.title}</td>
-                    <td>${blog.content}</td>
+                    <td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">${blog.content}</td>
                     <td>
                         <c:if test="${blog.publishTime>0}">
                             <jsp:useBean id="blogPublishTimeValue" class="java.util.Date"/>

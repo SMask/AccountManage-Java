@@ -71,10 +71,10 @@
         <h1>${blog.title} 详情</h1>
         <hr/>
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="table-layout: fixed">
             <tr>
-                <th>ID</th>
-                <td>${blog.id}</td>
+                <th style="width: 15%">ID</th>
+                <td style="width: 85%">${blog.id}</td>
             </tr>
             <tr>
                 <th>Title</th>

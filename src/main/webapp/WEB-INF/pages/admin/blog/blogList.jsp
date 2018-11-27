@@ -50,21 +50,21 @@
 
     <!-- 如果博客列表非空 -->
     <c:if test="${!empty blogList}">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" style="table-layout: fixed">
             <tr>
-                <th>ID</th>
-                <th>标题</th>
-                <th>内容</th>
-                <th>作者</th>
-                <th>发布时间</th>
-                <th>修改时间</th>
-                <th>操作</th>
+                <th style="width: 5%">ID</th>
+                <th style="width: 10%">标题</th>
+                <th style="width: 25%">内容</th>
+                <th style="width: 15%">作者</th>
+                <th style="width: 15%">发布时间</th>
+                <th style="width: 15%">修改时间</th>
+                <th style="width: 15%">操作</th>
             </tr>
             <c:forEach items="${blogList}" var="blog">
                 <tr>
                     <td>${blog.id}</td>
                     <td>${blog.title}</td>
-                    <td>${blog.content}</td>
+                    <td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">${blog.content}</td>
                     <td>${blog.userByUserId.id} - ${blog.userByUserId.username} - ${blog.userByUserId.nickname}</td>
                     <td>
                         <c:if test="${blog.publishTime>0}">

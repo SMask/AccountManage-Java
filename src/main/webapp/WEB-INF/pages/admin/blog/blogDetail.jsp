@@ -86,10 +86,6 @@
                     - ${blog.userByUserId.nickname} ${blog.userByUserId.firstName} ${blog.userByUserId.lastName}</td>
             </tr>
             <tr>
-                <th>Content</th>
-                <td>${blog.content}</td>
-            </tr>
-            <tr>
                 <th>Publish Time</th>
                 <td>
                     <c:if test="${blog.publishTime>0}">
@@ -108,6 +104,10 @@
                         <fmt:formatDate value="${updateTimeValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
                     </c:if>
                 </td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>${blog.content}</td>
             </tr>
         </table>
     </c:if>

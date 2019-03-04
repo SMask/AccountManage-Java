@@ -35,7 +35,7 @@ public class BlogApiController implements ApiController {
     /* ********************************************* Api接口 **********************************************/
 
     /**
-     * Blog列表
+     * 列表
      *
      * @return String
      */
@@ -58,7 +58,7 @@ public class BlogApiController implements ApiController {
     }
 
     /**
-     * Blog详情
+     * 详情
      *
      * @param id id
      * @return String
@@ -71,13 +71,13 @@ public class BlogApiController implements ApiController {
             return JSONResponseHelper.getResultError(errorMsg);
         }
 
-        JSONObject data = new JSONObject();
-
         BlogEntity blogEntity = ModelHelper.findById(blogRepository, id);
 
         if (blogEntity == null) {
             return JSONResponseHelper.getResultError(TIPS_BLOG_NULL);
         }
+
+        JSONObject data = new JSONObject();
 
         data.put("blog", ModelHelper.getJSONObject(blogEntity, true));
 

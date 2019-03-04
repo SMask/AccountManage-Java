@@ -38,7 +38,7 @@ public class UserApiController implements ApiController {
     /* ********************************************* Api接口 **********************************************/
 
     /**
-     * 用户列表
+     * 列表
      *
      * @return String
      */
@@ -61,7 +61,7 @@ public class UserApiController implements ApiController {
     }
 
     /**
-     * 用户详情
+     * 详情
      *
      * @param id id
      * @return String
@@ -74,7 +74,35 @@ public class UserApiController implements ApiController {
             return JSONResponseHelper.getResultError(errorMsg);
         }
 
+        UserEntity userEntity = ModelHelper.findById(userRepository, id);
+
+        if (userEntity == null) {
+            return JSONResponseHelper.getResultError(TIPS_USER_NULL);
+        }
+
         JSONObject data = new JSONObject();
+
+        List<BlogEntity> blogList = blogRepository.findAllByUserByUserId(userEntity);
+        userEntity.setBlogsById(blogList);
+
+        data.put("user", ModelHelper.getJSONObject(userEntity, true));
+
+        return JSONResponseHelper.getResult(data);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id id
+     * @return String
+     */
+    @ResponseBody
+    @RequestMapping(value = "/delete")
+    public String delete(@RequestParam(value = "id", required = false) String id) {
+        String errorMsg = ApiControllerHelper.checkId(id);
+        if (!BaseUtils.isEmptyString(errorMsg)) {
+            return JSONResponseHelper.getResultError(errorMsg);
+        }
 
         UserEntity userEntity = ModelHelper.findById(userRepository, id);
 
@@ -82,10 +110,38 @@ public class UserApiController implements ApiController {
             return JSONResponseHelper.getResultError(TIPS_USER_NULL);
         }
 
-        List<BlogEntity> blogList = blogRepository.findAllByUserByUserId(userEntity);
-        userEntity.setBlogsById(blogList);
+        JSONObject data = new JSONObject();
 
-        data.put("user", ModelHelper.getJSONObject(userEntity, true));
+        // 删除用户
+        userRepository.deleteById(userEntity.getId());
+
+        // 立即刷新
+        userRepository.flush();
+
+        return JSONResponseHelper.getResult(data);
+    }
+
+
+    /**
+     * 添加
+     *
+     * @param username  username
+     * @param password  password
+     * @param nickname  nickname
+     * @param firstName firstName
+     * @param lastName  lastName
+     * @param birthday  lastName
+     * @return String
+     */
+    @ResponseBody
+    @RequestMapping(value = "/add")
+    public String add(@RequestParam(value = "username", required = false) String username,
+                      @RequestParam(value = "password", required = false) String password,
+                      @RequestParam(value = "nickname", required = false) String nickname,
+                      @RequestParam(value = "firstName", required = false) String firstName,
+                      @RequestParam(value = "lastName", required = false) String lastName,
+                      @RequestParam(value = "birthday", required = false) String birthday) {
+        JSONObject data = new JSONObject();
 
         return JSONResponseHelper.getResult(data);
     }

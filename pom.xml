@@ -22,12 +22,12 @@
         <spring.data.jpa.version>2.1.1.RELEASE</spring.data.jpa.version>
         <hibernate.version>5.3.7.Final</hibernate.version>
         <hibernate.validator.version>6.0.13.Final</hibernate.validator.version>
-        <mchange.version>0.9.5.2</mchange.version>
+        <mchange.version>0.9.5.3</mchange.version>
         <javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
         <javax.servlet.jsp-api.version>2.0</javax.servlet.jsp-api.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <mysql.version>8.0.13</mysql.version>
-        <jackson.version>2.9.7</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
         <json.version>20180813</json.version>
     </properties>
 
